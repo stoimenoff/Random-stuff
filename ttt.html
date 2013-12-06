@@ -1,0 +1,148 @@
+<html>
+<head>
+<style>
+	*{
+	padding:0;
+	margin:0;
+	}
+	.button{
+	width:150px;
+	height:150px;
+	font-size:100px;
+	border: 1px solid black;
+	background-color:inherit;
+	}
+	#resultDiv{
+	font-size:30px;
+	color:green;
+	}
+	#reset{
+	width:150px;
+	height:50px;
+	font-weight:bold;
+	font-size:35px;
+	border: 0px solid black;
+	background-color:inherit;
+	}
+	#field{
+	border: 1px solid black;
+	}
+	.diff{
+	width:110px;
+	height:50px;
+	font-weight:bold;
+	font-size:15px;
+	border: 0px solid black;
+	background-color:inherit;
+	}
+	#reset : active {
+    color:blue;
+	}
+</style>
+<script type="text/javascript">
+	var player=1;
+	var used=0;
+	var field = [9];
+	for(var k=0;k<9;k++)
+			field[k]=0;
+	document.getElementById("resultDiv").innerHTML="";
+	function played(id){
+	if(document.getElementById("resultDiv").innerHTML==""){
+	var x;
+	switch(parseInt(id[1]))
+	{
+	case 1: x=1; break;
+	case 2: x=2; break;
+	case 3: x=3; break;
+	case 4: x=4; break;
+	case 5: x=5; break;
+	case 6: x=6; break;
+	case 7: x=7; break;
+	case 8: x=8; break;
+	case 9: x=9; break;
+	}
+	//console.log(x);
+	if(player==1){
+	document.getElementById(id).value="X";
+	player=2;
+	field[x-1]=1;
+	used++;
+	}
+	else{
+	document.getElementById(id).value="O";
+	player=1;
+	field[x-1]=2;
+	used++;
+	}
+	var winner=player-1;
+	if(winner==0)
+	winner=2;
+	if(field[0]==field[1]&&field[1]==field[2]&&field[0]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[3]==field[4]&&field[4]==field[5]&&field[3]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[6]==field[7]&&field[7]==field[8]&&field[6]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[0]==field[3]&&field[3]==field[6]&&field[0]!=0)
+	ddocument.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[1]==field[4]&&field[4]==field[7]&&field[1]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[2]==field[5]&&field[5]==field[8]&&field[2]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[0]==field[4]&&field[4]==field[8]&&field[0]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(field[2]==field[4]&&field[4]==field[6]&&field[2]!=0)
+	document.getElementById("resultDiv").innerHTML="Player " + winner + " win!";
+	if(used==9&&document.getElementById("resultDiv").innerHTML=="")
+	document.getElementById("resultDiv").innerHTML="Draw Game";
+	}
+	}
+	function reset()
+	{
+	player=1;
+	used=0;
+	for(var k=0;k<9;k++)
+			field[k]=0;
+	document.getElementById("b1").value="";
+	document.getElementById("b2").value="";
+	document.getElementById("b3").value="";
+	document.getElementById("b4").value="";
+	document.getElementById("b5").value="";
+	document.getElementById("b6").value="";
+	document.getElementById("b7").value="";
+	document.getElementById("b8").value="";
+	document.getElementById("b9").value="";
+	document.getElementById("resultDiv").innerHTML="";
+	}
+</script>
+</head>
+<body>
+<input type="button" id="d1" class="diff" onclick="setdiff('d1')" value="EASY" onfocus="if(this.blur)this.blur()"/>
+<input type="button" id="d2" class="diff" onclick="setdiff('d2')" value="MEDIUM" onfocus="if(this.blur)this.blur()"/>
+<input type="button" id="d3" class="diff" onclick="setdiff('d3')" value="HARD" onfocus="if(this.blur)this.blur()"/>
+<input type="button" id="d4" class="diff" onclick="setdiff('d4')" value="IMPOSSIBLE" onfocus="if(this.blur)this.blur()"/>
+<br>
+<br>
+<table cellspacing="0" cellpadding="0" id="field">
+	<tr>
+		<td><input class="button" type="button" id="b1" onclick="played('b1')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b2" onclick="played('b2')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b3" onclick="played('b3')" onfocus="if(this.blur)this.blur()"/></td>
+	</tr>
+	<tr>
+		<td><input class="button" type="button" id="b4" onclick="played('b4')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b5" onclick="played('b5')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b6" onclick="played('b6')" onfocus="if(this.blur)this.blur()"/></td>
+	</tr>
+	<tr>
+		<td><input class="button" type="button" id="b7" onclick="played('b7')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b8" onclick="played('b8')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b9" onclick="played('b9')" onfocus="if(this.blur)this.blur()"/></td>
+	</tr>
+</table>
+<br>
+<input type="button" id="reset" value="RESET" onclick="reset()" onfocus="if(this.blur)this.blur()"/>
+<br>
+<div id="resultDiv"></div>
+</body>
+</html>

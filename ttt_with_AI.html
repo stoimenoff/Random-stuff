@@ -1,0 +1,371 @@
+<html>
+<head>
+<style>
+	*{
+	padding:0;
+	margin:0;
+	}
+	.button{
+	width:150px;
+	height:150px;
+	font-size:100px;
+	border: 1px solid black;
+	background-color:inherit;
+	}
+	#resultDiv{
+	font-size:30px;
+	color:green;
+	}
+	#reset{
+	width:150px;
+	height:50px;
+	text-decoration:none;
+	font-weight:bold;
+	font-size:35px;
+	border: 0px solid black;
+	background-color:inherit;
+	color:inherit;
+	font-family:arial;
+	}
+	#field{
+	border: 1px solid black;
+	}
+	.diff{
+	width:110px;
+	height:50px;
+	font-weight:bold;
+	font-size:15px;
+	border: 0px solid black;
+	background-color:inherit;
+	}
+	#reset:active {
+    color:blue;
+	}
+	#d1{
+	color:blue;
+	}
+	#d2, #d3, #d4{
+	color:black;
+	}
+	#game{
+	margin-left: auto ;
+	margin-right: auto ;
+	width:500px;
+	}
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js">
+</script>
+<script type="text/javascript">
+	var diff=1;
+	function setdiff(id){
+	$('.diff').css('color',"black");
+    $('#' + id).css('color',"blue");
+	diff = parseInt(id[1]);
+	reset();
+	}
+	function winner(player,field,used){
+	var winner=player-1;
+	if(winner==0)
+	winner=2;
+	var isThereWinner = false;
+	if(field[0]==field[1]&&field[1]==field[2]&&field[0]!=0)
+	isThereWinner = true;
+	if(field[3]==field[4]&&field[4]==field[5]&&field[3]!=0)
+	isThereWinner = true;
+	if(field[6]==field[7]&&field[7]==field[8]&&field[6]!=0)
+	isThereWinner = true;
+	if(field[0]==field[3]&&field[3]==field[6]&&field[0]!=0)
+	isThereWinner = true;
+	if(field[1]==field[4]&&field[4]==field[7]&&field[1]!=0)
+	isThereWinner = true;
+	if(field[2]==field[5]&&field[5]==field[8]&&field[2]!=0)
+	isThereWinner = true;
+	if(field[0]==field[4]&&field[4]==field[8]&&field[0]!=0)
+	isThereWinner = true;
+	if(field[2]==field[4]&&field[4]==field[6]&&field[2]!=0)
+	isThereWinner = true;
+	if(isThereWinner == true && winner == 1)
+	document.getElementById("resultDiv").innerHTML="You win !!!";
+	if(isThereWinner == true && winner == 2)
+	document.getElementById("resultDiv").innerHTML="You LOSE !!!";
+	if(used==9&&document.getElementById("resultDiv").innerHTML=="")
+	document.getElementById("resultDiv").innerHTML="Draw Game";
+	}
+	function AIchoice(field){
+	var used=9;
+	for(var i=0;i<9;i++)
+		if(field[i]==0)
+			used--;
+	//console.log(used);
+	if(diff == 1)
+	{	
+		var x=0;
+		while(field[x]!=0){
+		x=parseInt(-((Math.random() * 8)-9));
+	}
+	return x;
+	}
+	if(diff == 2)
+	{
+		if((field[1]==2&&field[2]==2) || (field[3]==2&&field[6]==2) || (field[4]==2&&field[8]==2))
+		{if(field[0]==0){return 0;}}
+		if((field[0]==2&&field[2]==2) || (field[4]==2&&field[7]==2))
+		{if(field[1]==0){return 1;}}
+		if((field[1]==2&&field[0]==2) || (field[5]==2&&field[8]==2) || (field[4]==2&&field[6]==2))
+		{if(field[2]==0){return 2;}}
+		if((field[0]==2&&field[6]==2) || (field[4]==2&&field[5]==2))
+		{if(field[3]==0){return 3;}}
+		if((field[0]==2&&field[8]==2) || (field[2]==2&&field[6]==2) || (field[3]==2&&field[5]==2) || (field[7]==2&&field[1]==2))
+		{if(field[4]==0){return 4;}}
+		if((field[8]==2&&field[2]==2) || (field[3]==2&&field[4]==2))
+		{if(field[5]==0){return 5;}}
+		if((field[0]==2&&field[3]==2) || (field[7]==2&&field[8]==2) || (field[4]==2&&field[2]==2))
+		{if(field[6]==0){return 6;}}
+		if((field[1]==2&&field[4]==2) || (field[6]==2&&field[8]==2))
+		{if(field[7]==0){return 7;}}
+		if((field[0]==2&&field[4]==2) || (field[6]==2&&field[7]==2) || (field[2]==2&&field[5]==2))
+		{if(field[8]==0){return 8;}}
+		
+		if((field[1]==1&&field[2]==1) || (field[3]==1&&field[6]==1) || (field[4]==1&&field[8]==1))
+		{if(field[0]==0){return 0;}}
+		if((field[0]==1&&field[2]==1) || (field[4]==1&&field[7]==1))
+		{if(field[1]==0){return 1;}}
+		if((field[1]==1&&field[0]==1) || (field[5]==1&&field[8]==1) || (field[4]==1&&field[6]==1))
+		{if(field[2]==0){return 2;}}
+		if((field[0]==1&&field[6]==1) || (field[4]==1&&field[5]==1))
+		{if(field[3]==0){return 3;}}
+		if((field[0]==1&&field[8]==1) || (field[2]==1&&field[6]==1) || (field[3]==1&&field[5]==1) || (field[7]==1&&field[1]==1))
+		{if(field[4]==0){return 4;}}
+		if((field[8]==1&&field[2]==1) || (field[3]==1&&field[4]==1))
+		{if(field[5]==0){return 5;}}
+		if((field[0]==1&&field[3]==1) || (field[7]==1&&field[8]==1) || (field[4]==1&&field[2]==1))
+		{if(field[6]==0){return 6;}}
+		if((field[1]==1&&field[4]==1) || (field[6]==1&&field[8]==1))
+		{if(field[7]==0){return 7;}}
+		if((field[0]==1&&field[4]==1) || (field[6]==1&&field[7]==1) || (field[2]==1&&field[5]==1))
+		{if(field[8]==0){return 8;}}
+		var x=0;
+		while(field[x]!=0){
+		x=parseInt(-((Math.random() * 8)-9));
+		}
+		return x;
+	}
+	if(diff == 3){
+	if((field[1]==2&&field[2]==2) || (field[3]==2&&field[6]==2) || (field[4]==2&&field[8]==2))
+	{if(field[0]==0){return 0;}}
+	if((field[0]==2&&field[2]==2) || (field[4]==2&&field[7]==2))
+	{if(field[1]==0){return 1;}}
+	if((field[1]==2&&field[0]==2) || (field[5]==2&&field[8]==2) || (field[4]==2&&field[6]==2))
+	{if(field[2]==0){return 2;}}
+	if((field[0]==2&&field[6]==2) || (field[4]==2&&field[5]==2))
+	{if(field[3]==0){return 3;}}
+	if((field[0]==2&&field[8]==2) || (field[2]==2&&field[6]==2) || (field[3]==2&&field[5]==2) || (field[7]==2&&field[1]==2))
+	{if(field[4]==0){return 4;}}
+	if((field[8]==2&&field[2]==2) || (field[3]==2&&field[4]==2))
+	{if(field[5]==0){return 5;}}
+	if((field[0]==2&&field[3]==2) || (field[7]==2&&field[8]==2) || (field[4]==2&&field[2]==2))
+	{if(field[6]==0){return 6;}}
+	if((field[1]==2&&field[4]==2) || (field[6]==2&&field[8]==2))
+	{if(field[7]==0){return 7;}}
+	if((field[0]==2&&field[4]==2) || (field[6]==2&&field[7]==2) || (field[2]==2&&field[5]==2))
+	{if(field[8]==0){return 8;}}
+	
+	if((field[1]==1&&field[2]==1) || (field[3]==1&&field[6]==1) || (field[4]==1&&field[8]==1))
+	{if(field[0]==0){return 0;}}
+	if((field[0]==1&&field[2]==1) || (field[4]==1&&field[7]==1))
+	{if(field[1]==0){return 1;}}
+	if((field[1]==1&&field[0]==1) || (field[5]==1&&field[8]==1) || (field[4]==1&&field[6]==1))
+	{if(field[2]==0){return 2;}}
+	if((field[0]==1&&field[6]==1) || (field[4]==1&&field[5]==1))
+	{if(field[3]==0){return 3;}}
+	if((field[0]==1&&field[8]==1) || (field[2]==1&&field[6]==1) || (field[3]==1&&field[5]==1) || (field[7]==1&&field[1]==1))
+	{if(field[4]==0){return 4;}}
+	if((field[8]==1&&field[2]==1) || (field[3]==1&&field[4]==1))
+	{if(field[5]==0){return 5;}}
+	if((field[0]==1&&field[3]==1) || (field[7]==1&&field[8]==1) || (field[4]==1&&field[2]==1))
+	{if(field[6]==0){return 6;}}
+	if((field[1]==1&&field[4]==1) || (field[6]==1&&field[8]==1))
+	{if(field[7]==0){return 7;}}
+	if((field[0]==1&&field[4]==1) || (field[6]==1&&field[7]==1) || (field[2]==1&&field[5]==1))
+	{if(field[8]==0){return 8;}}
+	
+	var x,max=0;
+	var choice = [-1,-1,-1,-1,-1,-1,-1,-1,-1];
+	if(field[0]==0){choice[0]=3 - (field[1]==2||field[2]==2) - (field[6]==2||field[3]==2) - (field[8]==2||field[4]==2);}
+	if(field[1]==0){choice[1]=2 - (field[2]==2||field[0]==2) - (field[7]==2||field[4]==2);}
+	if(field[2]==0){choice[2]=3 - (field[0]==2||field[1]==2) - (field[5]==2||field[8]==2) - (field[4]==2||field[6]==2);}
+	if(field[3]==0){choice[3]=2 - (field[6]==2||field[0]==2) - (field[4]==2||field[5]==2);}
+	if(field[4]==0){choice[4]=4 - (field[1]==2||field[7]==2) - (field[5]==2||field[3]==2) - (field[0]==2||field[8]==2) - (field[6]==2||field[2]==2);}
+	if(field[5]==0){choice[5]=2 - (field[2]==2||field[8]==2) - (field[3]==2||field[4]==2);}
+	if(field[6]==0){choice[6]=3 - (field[7]==2||field[8]==2) - (field[3]==2||field[0]==2);}
+	if(field[7]==0){choice[7]=2 - (field[6]==2||field[8]==2) - (field[1]==2||field[4]==2);}
+	if(field[8]==0){choice[8]=3 - (field[4]==2||field[0]==2) - (field[6]==2||field[7]==2) - (field[5]==2||field[2]==2);}
+	//console.log(choice);
+	for(var i=0;i<9;i++)
+	{
+		if(choice[i]>=max)
+		{
+		max=choice[i];
+		x=i;
+		}
+	}
+	return x;
+	}
+	if(diff == 4){
+	if((field[1]==field[6]&&field[1]==1))
+	{if(used==3){return 0;}}
+	if((field[1]==field[8]&&field[1]==1))
+	{if(used==3){return 2;}}
+	if((field[0]==field[8]&&field[0]==1)||(field[2]==field[6]&&field[2]==1))
+	{if(used==3){return 1;}}
+	if((field[1]==2&&field[2]==2) || (field[3]==2&&field[6]==2) || (field[4]==2&&field[8]==2))
+	{if(field[0]==0){return 0;}}
+	if((field[0]==2&&field[2]==2) || (field[4]==2&&field[7]==2))
+	{if(field[1]==0){return 1;}}
+	if((field[1]==2&&field[0]==2) || (field[5]==2&&field[8]==2) || (field[4]==2&&field[6]==2))
+	{if(field[2]==0){return 2;}}
+	if((field[0]==2&&field[6]==2) || (field[4]==2&&field[5]==2))
+	{if(field[3]==0){return 3;}}
+	if((field[0]==2&&field[8]==2) || (field[2]==2&&field[6]==2) || (field[3]==2&&field[5]==2) || (field[7]==2&&field[1]==2))
+	{if(field[4]==0){return 4;}}
+	if((field[8]==2&&field[2]==2) || (field[3]==2&&field[4]==2))
+	{if(field[5]==0){return 5;}}
+	if((field[0]==2&&field[3]==2) || (field[7]==2&&field[8]==2) || (field[4]==2&&field[2]==2))
+	{if(field[6]==0){return 6;}}
+	if((field[1]==2&&field[4]==2) || (field[6]==2&&field[8]==2))
+	{if(field[7]==0){return 7;}}
+	if((field[0]==2&&field[4]==2) || (field[6]==2&&field[7]==2) || (field[2]==2&&field[5]==2))
+	{if(field[8]==0){return 8;}}
+	
+	if((field[1]==1&&field[2]==1) || (field[3]==1&&field[6]==1) || (field[4]==1&&field[8]==1))
+	{if(field[0]==0){return 0;}}
+	if((field[0]==1&&field[2]==1) || (field[4]==1&&field[7]==1))
+	{if(field[1]==0){return 1;}}
+	if((field[1]==1&&field[0]==1) || (field[5]==1&&field[8]==1) || (field[4]==1&&field[6]==1))
+	{if(field[2]==0){return 2;}}
+	if((field[0]==1&&field[6]==1) || (field[4]==1&&field[5]==1))
+	{if(field[3]==0){return 3;}}
+	if((field[0]==1&&field[8]==1) || (field[2]==1&&field[6]==1) || (field[3]==1&&field[5]==1) || (field[7]==1&&field[1]==1))
+	{if(field[4]==0){return 4;}}
+	if((field[8]==1&&field[2]==1) || (field[3]==1&&field[4]==1))
+	{if(field[5]==0){return 5;}}
+	if((field[0]==1&&field[3]==1) || (field[7]==1&&field[8]==1) || (field[4]==1&&field[2]==1))
+	{if(field[6]==0){return 6;}}
+	if((field[1]==1&&field[4]==1) || (field[6]==1&&field[8]==1))
+	{if(field[7]==0){return 7;}}
+	if((field[0]==1&&field[4]==1) || (field[6]==1&&field[7]==1) || (field[2]==1&&field[5]==1))
+	{if(field[8]==0){return 8;}}
+	
+	var x,max=0;
+	var choice = [-1,-1,-1,-1,-1,-1,-1,-1,-1];
+	if(field[0]==0){choice[0]=3 - (field[1]==2||field[2]==2) - (field[6]==2||field[3]==2) - (field[8]==2||field[4]==2);}
+	if(field[1]==0){choice[1]=2 - (field[2]==2||field[0]==2) - (field[7]==2||field[4]==2);}
+	if(field[2]==0){choice[2]=3 - (field[0]==2||field[1]==2) - (field[5]==2||field[8]==2) - (field[4]==2||field[6]==2);}
+	if(field[3]==0){choice[3]=2 - (field[6]==2||field[0]==2) - (field[4]==2||field[5]==2);}
+	if(field[4]==0){choice[4]=4 - (field[1]==2||field[7]==2) - (field[5]==2||field[3]==2) - (field[0]==2||field[8]==2) - (field[6]==2||field[2]==2);}
+	if(field[5]==0){choice[5]=2 - (field[2]==2||field[8]==2) - (field[3]==2||field[4]==2);}
+	if(field[6]==0){choice[6]=3 - (field[7]==2||field[8]==2) - (field[3]==2||field[0]==2);}
+	if(field[7]==0){choice[7]=2 - (field[6]==2||field[8]==2) - (field[1]==2||field[4]==2);}
+	if(field[8]==0){choice[8]=3 - (field[4]==2||field[0]==2) - (field[6]==2||field[7]==2) - (field[5]==2||field[2]==2);}
+	//console.log(choice);
+	for(var i=0;i<9;i++)
+	{
+		if(choice[i]>=max)
+		{
+		max=choice[i];
+		x=i;
+		}
+	}
+	return x;
+	}
+	}
+	
+	var player=1;
+	var used=0;
+	var field = [0,0,0,0,0,0,0,0,0];
+	function played(id){
+	if(document.getElementById("resultDiv").innerHTML=="" && document.getElementById(id).value==""){
+	var x;
+	switch(parseInt(id[1]))
+	{
+	case 1: x=1; break;
+	case 2: x=2; break;
+	case 3: x=3; break;
+	case 4: x=4; break;
+	case 5: x=5; break;
+	case 6: x=6; break;
+	case 7: x=7; break;
+	case 8: x=8; break;
+	case 9: x=9; break;
+	}
+	//console.log(x);
+	if(player==1){
+	document.getElementById(id).value="X";
+	field[x-1]=1;
+	used++;
+	player=2;
+	winner(player,field,used);
+	}
+	if(player==2&&document.getElementById("resultDiv").innerHTML==""){
+	var CompChoice = parseInt(AIchoice(field) + 1);
+	//console.log(CompChoice);
+	var CompChoiceId = 'b' + CompChoice.toString();
+	document.getElementById(CompChoiceId).value="O";
+	field[parseInt(CompChoice - 1)]=2;
+	used++;
+	player=1;
+	winner(player,field,used);
+	}
+	//console.log(field);
+	}
+	}
+	function reset(){
+	player=1;
+	used=0;
+	for(var k=0;k<9;k++)
+			field[k]=0;
+	document.getElementById("b1").value="";
+	document.getElementById("b2").value="";
+	document.getElementById("b3").value="";
+	document.getElementById("b4").value="";
+	document.getElementById("b5").value="";
+	document.getElementById("b6").value="";
+	document.getElementById("b7").value="";
+	document.getElementById("b8").value="";
+	document.getElementById("b9").value="";
+	document.getElementById("resultDiv").innerHTML="";
+	}
+</script>
+</head>
+<body>
+<div id="game">
+<input type="button" id="d1" class="diff" onclick="setdiff('d1')" value="EASY" onfocus="if(this.blur)this.blur()"/>
+<input type="button" id="d2" class="diff" onclick="setdiff('d2')" value="MEDIUM" onfocus="if(this.blur)this.blur()"/>
+<input type="button" id="d3" class="diff" onclick="setdiff('d3')" value="HARD" onfocus="if(this.blur)this.blur()"/>
+<input type="button" id="d4" class="diff" onclick="setdiff('d4')" value="IMPOSSIBLE" onfocus="if(this.blur)this.blur()"/>
+<br>
+<br>
+<table cellspacing="0" cellpadding="0" id="field">
+	<tr>
+		<td><input class="button" type="button" id="b1" onclick="played('b1')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b2" onclick="played('b2')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b3" onclick="played('b3')" onfocus="if(this.blur)this.blur()"/></td>
+	</tr>
+	<tr>
+		<td><input class="button" type="button" id="b4" onclick="played('b4')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b5" onclick="played('b5')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b6" onclick="played('b6')" onfocus="if(this.blur)this.blur()"/></td>
+	</tr>
+	<tr>
+		<td><input class="button" type="button" id="b7" onclick="played('b7')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b8" onclick="played('b8')" onfocus="if(this.blur)this.blur()"/></td>
+		<td><input class="button" type="button" id="b9" onclick="played('b9')" onfocus="if(this.blur)this.blur()"/></td>
+	</tr>
+</table>
+<br>
+<a href="#" id="reset" onclick="reset()" onfocus="if(this.blur)this.blur()">RESET<a/>
+<br>
+<div id="resultDiv"></div>
+</div>
+</body>
+</html>
